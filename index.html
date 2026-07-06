@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="ブラウザに履歴を保存する、シンプルなAIチャット" />
+    <title>AI Chat</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="app-header">
+        <a class="brand" href="./" aria-label="AI Chat ホーム">
+          <span class="brand-mark" aria-hidden="true">AI</span>
+          <span>
+            <strong>AI Chat</strong>
+            <small>Powered by OpenAI</small>
+          </span>
+        </a>
+
+        <div class="header-actions">
+          <span id="nicknameDisplay" class="nickname-display" aria-label="現在のニックネーム"></span>
+          <button id="clearHistoryButton" class="ghost-button" type="button">履歴を消す</button>
+        </div>
+      </header>
+
+      <main id="chatArea" class="chat-area" aria-label="チャット履歴">
+        <div id="emptyState" class="empty-state">
+          <div class="empty-icon" aria-hidden="true">✦</div>
+          <h1>何でも話してみましょう</h1>
+          <p>会話履歴は、このブラウザの中だけに保存されます。</p>
+        </div>
+        <div id="messages" class="messages" aria-live="polite"></div>
+      </main>
+
+      <footer class="composer-wrap">
+        <form id="chatForm" class="composer">
+          <label class="sr-only" for="messageInput">メッセージ</label>
+          <textarea
+            id="messageInput"
+            rows="1"
+            maxlength="4000"
+            placeholder="メッセージを入力"
+            autocomplete="off"
+            required
+          ></textarea>
+          <button id="sendButton" class="send-button" type="submit" aria-label="送信">
+            <span aria-hidden="true">↑</span>
+          </button>
+        </form>
+        <p class="composer-note">Enterで送信・Shift + Enterで改行</p>
+      </footer>
+    </div>
+
+    <div id="nicknameModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="nicknameTitle" hidden>
+      <form id="nicknameForm" class="modal-card">
+        <div class="modal-icon" aria-hidden="true">✦</div>
+        <h2 id="nicknameTitle">はじめまして</h2>
+        <p>チャットで使うニックネームを入力してください。</p>
+        <label for="nicknameInput">ニックネーム</label>
+        <input id="nicknameInput" type="text" maxlength="30" placeholder="例：たろう" autocomplete="nickname" required />
+        <button type="submit" class="primary-button">チャットを始める</button>
+      </form>
+    </div>
+
+    <script src="script.js" defer></script>
+  </body>
+</html>
