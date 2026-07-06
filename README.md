@@ -66,43 +66,6 @@ HTMLやJavaScriptは、サイトを見た人のブラウザへそのまま配信
 
 APIキーは必ずCloudflare WorkersのSecretとして保存してください。誤ってGitHubへpushした場合は、ファイルから消すだけでは不十分です。OpenAI側でそのキーを直ちに無効化し、新しいキーを発行してください。
 
-## 6. ローカルで確認する
-
-`index.html`を直接開くより、簡易Webサーバーを使うのがおすすめです。Pythonがある場合、このフォルダで次を実行します。
-
-```bash
-python -m http.server 8000
-```
-
-ブラウザで`http://localhost:8000`を開きます。画面だけならWorkers URLの設定前でも確認できます。実際の会話テストには、公開済みWorkers URLと`OPENAI_API_KEY`が必要です。
-
-`ALLOWED_ORIGIN`を設定している場合、ローカル確認中だけ`http://localhost:8000`へ変更するか、未設定にして再デプロイしてください。確認後は公開サイトのオリジンへ戻します。
-
-## 7. よくあるエラーと対処法
-
-| 症状 | 主な原因と対処 |
-|---|---|
-| 「API_ENDPOINTを…変更してください」 | `script.js`先頭を実際の`https://…workers.dev`へ変更します。 |
-| CORSエラー | `ALLOWED_ORIGIN`が、開いているサイトの`https://ホスト名`と完全一致するか確認します。末尾の`/`は付けません。Workerも再デプロイします。 |
-| 401 / APIキーが無効 | Secret名が正確に`OPENAI_API_KEY`か確認します。APIキーの前後に空白がないかも確認します。 |
-| 429 / 利用上限 | OpenAIの請求設定・利用上限・レート制限を確認し、少し待って再試行します。 |
-| モデルを利用できない | `worker.js`の`MODEL`を、アカウントで利用可能なResponses API対応モデルへ変更します。 |
-| GitHub Pagesが404 | PagesのBranchが`main`、フォルダが`/(root)`か確認し、デプロイ完了まで数分待ちます。 |
-| 変更が反映されない | ブラウザを強制再読み込みし、GitHubのActions/Pagesでデプロイ完了を確認します。 |
-| 履歴が消えた | 履歴は端末・ブラウザごとの`localStorage`です。シークレットモード、サイトデータ削除、別端末では引き継がれません。 |
-
-## ファイル構成
-
-```text
-index.html  画面の構造
-style.css   黒基調のレスポンシブデザイン
-script.js   画面操作、localStorage、Workersへの通信
-worker.js   OpenAI Responses APIへの安全な中継
-README.md   公開・設定手順
-```
 
 ## セキュリティ上の補足
-
-- `OPENAI_API_KEY`をHTML、JavaScript、README、コミット履歴へ書かないでください。
-- 本格公開時は`ALLOWED_ORIGIN`を設定し、Cloudflareのレート制限も併用してください。CORSだけでは、curlなどブラウザ以外からの直接アクセスを完全には防げません。
 - このサンプルのWorkersは会話をDBやKVへ保存しません。ただし、運用時のCloudflare/OpenAI側のログやデータ取り扱いは各サービスの設定・ポリシーも確認してください。
