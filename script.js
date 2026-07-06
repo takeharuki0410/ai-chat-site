@@ -1,6 +1,6 @@
 // Cloudflare Workersを公開したら、次のURLだけを書き換えてください。
 // APIキーは絶対にこのファイルへ書かないでください。
-const API_ENDPOINT = "ここにCloudflare WorkersのURL";
+const API_ENDPOINT = "https://talk-ai.takeharuki0410.workers.dev/";
 
 const STORAGE_KEYS = {
   nickname: "ai-chat-nickname",
